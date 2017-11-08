@@ -51,15 +51,22 @@ class Countries extends Component {
   }
 
   deleteItem = () => {
+    if (!this.state.activeItem) {
+      return alert("There is no active selected country");
+    }
     if (
       // eslint-disable-next-line
       confirm(`Are you sure to delete country ${this.state.activeItem.name}?`)
     ) {
       const newActiveItem = this.props.countries.filter(
         ({ id }) => id !== this.state.activeItem.id
-      )[0];
+      );
       this.props.removeCountry(this.state.activeItem);
-      this.setState({ activeItem: newActiveItem });
+      if (newActiveItem.length) {
+        this.setState({ activeItem: newActiveItem[0] });
+      } else {
+        this.setState({ activeItem: null });
+      }
     }
   };
 
